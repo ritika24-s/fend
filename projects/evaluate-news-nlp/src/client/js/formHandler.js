@@ -9,7 +9,7 @@ function handleSubmit(event) {
     fetch('https://api.aylien.com/api/v1/sentiment')
     .then(res => res.json())
     .then(function(res) {
-        document.getElementById('results').innerHTML = res.message
+        document.getElementById('results').innerHTML = res.text
     })
 }
 
