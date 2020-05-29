@@ -17,7 +17,8 @@
  * Define Global Variables
  * 
 */
-
+const unorderedList = document.getElementById('navbar__list');
+const sections = document.querySelectorAll('section'); //used for scroll event fucnction and buildNav
 
 /**
  * End Global Variables
@@ -34,12 +35,40 @@
 */
 
 // build the nav
+function buildNav(){
+    for (const sect of sections){
+        const listChild = document.createElement('li');
+        listChild.className = "menu__link";
+        //listChild.innerText = sect.querySelector('h2').innerText 
+        listChild.innerText = sect.dataset.nav;
+        unorderedList.appendChild(listChild);
+        // Scroll to anchor ID using scrollTO event
+        listChild.addEventListener('click',function(){
+            sect.scrollIntoView({behavior: "smooth"})
+        });
+    }
+}
 
+buildNav();
 
+const links = document.querySelectorAll('.menu__link'); //gets the links that were dynamiclly generated at the top of the page. must run after buildnav
 // Add class 'active' to section when near top of viewport
-
-
-// Scroll to anchor ID using scrollTO event
+window.addEventListener('scroll',function(){
+    for (const sect of sections){
+        if(sect.getBoundingClientRect().top + sect.getBoundingClientRect().bottom / 2 <= this.window.innerHeight){
+            sect.classList.add('your-active-class')
+            for (link of links) {
+                if (link.innerText == sect.querySelector('h2').innerText) {
+                  link.classList.add("active-scroll")
+                } else {
+                  link.classList.remove("active-scroll")
+                }
+              }
+        }else{
+            sect.classList.remove('your-active-class')
+        } 
+    }
+})
 
 
 /**
